@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Giám sát hệ thống</title></head>
+<body>
+<h1>Giám sát hệ thống</h1>
+<p>Tài khoản: <strong th:text="${dashboard.userCount}"></strong>;
+    bài tập: <strong th:text="${dashboard.assignmentCount}"></strong>;
+    bài nộp: <strong th:text="${dashboard.submissionCount}"></strong>;
+    đã chấm: <strong th:text="${dashboard.gradedCount}"></strong>.</p>
+<h2>Tài khoản và vai trò</h2>
+<table><thead><tr><th>Tên đăng nhập</th><th>Vai trò</th></tr></thead>
+<tbody><tr th:each="u : ${dashboard.users}"><td th:text="${u.username}"></td><td th:text="${u.roles}"></td></tr></tbody></table>
+<h2>Bài tập</h2>
+<table><thead><tr><th>Tiêu đề</th><th>Giảng viên</th><th>Trạng thái</th><th>Hạn</th></tr></thead>
+<tbody><tr th:each="a : ${dashboard.assignments.content}">
+    <td th:text="${a.title}"></td><td th:text="${a.lecturerUsername}"></td><td th:text="${a.status}"></td><td th:text="${a.deadline}"></td>
+</tr></tbody></table>
+<p>
+    <a th:if="${dashboard.assignments.hasPrevious()}" th:href="@{/admin/dashboard(page=${dashboard.assignments.number - 1})}">Trang trước</a>
+    <span th:text="${dashboard.assignments.number + 1}"></span>
+    <a th:if="${dashboard.assignments.hasNext()}" th:href="@{/admin/dashboard(page=${dashboard.assignments.number + 1})}">Trang sau</a>
+</p>
+<p>Quản trị viên chỉ giám sát; không có chức năng thay đổi điểm.</p>
+</body>
+</html>

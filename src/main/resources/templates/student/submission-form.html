@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Nộp bài</title></head>
+<body>
+<h1>Nộp hoặc cập nhật bài</h1>
+<form th:action="@{/student/assignments/{id}/submit(id=${assignmentId})}" th:object="${form}" method="post">
+    <label for="content">Nội dung hoặc liên kết repository</label>
+    <textarea id="content" th:field="*{content}" maxlength="5000" required></textarea>
+    <span th:errors="*{content}"></span>
+    <button type="submit">Gửi bài</button>
+</form>
+<a th:href="@{/student/assignments}">Quay lại</a>
+</body>
+</html>

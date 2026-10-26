@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Bài nộp</title></head>
+<body>
+<h1>Bài nộp của học viên</h1>
+<p><a th:href="@{/lecturer/assignments}">Quay lại bài tập</a></p>
+<p th:if="${submissions.empty}">Chưa có bài nộp.</p>
+<article th:each="submission : ${submissions.content}">
+    <h2 th:text="${submission.studentUsername}"></h2>
+    <p th:text="${submission.content}"></p>
+    <p>Thời điểm nộp: <time th:text="${submission.submittedAt}"></time></p>
+    <p th:if="${submission.score != null}">Điểm: <span th:text="${submission.score}"></span></p>
+    <p th:if="${submission.feedback != null}" th:text="${submission.feedback}"></p>
+    <form th:if="${submission.score == null}" th:action="@{/lecturer/assignments/{aid}/submissions/{sid}/grade(aid=${assignmentId},sid=${submission.id})}" th:object="${grade}" method="post">
+        <label>Điểm (0–10, tối đa 2 số lẻ)<input type="number" name="score" min="0" max="10" step="0.01" required></label>
+        <label>Nhận xét<textarea name="feedback" maxlength="2000"></textarea></label>
+        <span th:errors="*{score}"></span><span th:errors="*{feedback}"></span>
+        <button type="submit">Lưu điểm</button>
+    </form>
+</article>
+<p>
+    <a th:if="${submissions.hasPrevious()}" th:href="@{/lecturer/assignments/{id}/submissions(id=${assignmentId},page=${submissions.number - 1})}">Trang trước</a>
+    <span th:text="${submissions.number + 1}"></span>
+    <a th:if="${submissions.hasNext()}" th:href="@{/lecturer/assignments/{id}/submissions(id=${assignmentId},page=${submissions.number + 1})}">Trang sau</a>
+</p>
+</body>
+</html>

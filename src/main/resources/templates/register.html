@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Đăng ký học viên</title></head>
+<body>
+<h1>Đăng ký học viên</h1>
+<form th:action="@{/register}" th:object="${form}" method="post">
+    <p><label for="username">Tên đăng nhập</label>
+        <input id="username" th:field="*{username}" minlength="3" maxlength="100" required autocomplete="username">
+        <span th:errors="*{username}"></span></p>
+    <p><label for="password">Mật khẩu</label>
+        <input id="password" th:field="*{password}" type="password" minlength="8" maxlength="72" required autocomplete="new-password">
+        <span th:errors="*{password}"></span></p>
+    <button type="submit">Đăng ký</button>
+</form>
+<a th:href="@{/login}">Đã có tài khoản? Đăng nhập</a>
+</body>
+</html>

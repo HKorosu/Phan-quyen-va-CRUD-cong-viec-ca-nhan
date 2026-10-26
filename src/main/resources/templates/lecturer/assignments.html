@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Bài tập giảng viên</title></head>
+<body>
+<h1>Bài tập do tôi phụ trách</h1>
+<p><a th:href="@{/}">Trang chủ</a> | <a th:href="@{/lecturer/assignments/new}">Tạo bài tập</a></p>
+<form th:action="@{/lecturer/assignments}" method="get">
+    <label for="status">Lọc trạng thái</label>
+    <select id="status" name="status">
+        <option value="">Tất cả</option>
+        <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}" th:selected="${s == selectedStatus}"></option>
+    </select>
+    <button type="submit">Lọc</button>
+</form>
+<p th:if="${assignments.empty}">Chưa có bài tập.</p>
+<table>
+    <thead><tr><th>Tiêu đề</th><th>Hạn</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+    <tbody><tr th:each="a : ${assignments.content}">
+        <td th:text="${a.title}"></td><td th:text="${a.deadline}"></td><td th:text="${a.status}"></td>
+        <td>
+            <a th:if="${a.status.name() == 'DRAFT'}" th:href="@{/lecturer/assignments/{id}/edit(id=${a.id})}">Sửa</a>
+            <form th:if="${a.status.name() == 'DRAFT'}" th:action="@{/lecturer/assignments/{id}/students(id=${a.id})}" method="post">
+                <label>Username học viên, phân cách bằng dấu phẩy hoặc xuống dòng</label>
+                <textarea name="usernames" required></textarea><button type="submit">Giao bài</button>
+            </form>
+            <form th:if="${a.status.name() == 'DRAFT'}" th:action="@{/lecturer/assignments/{id}/open(id=${a.id})}" method="post">
+                <button type="submit">Mở bài</button>
+            </form>
+            <form th:if="${a.status.name() == 'OPEN'}" th:action="@{/lecturer/assignments/{id}/close(id=${a.id})}" method="post">
+                <button type="submit">Đóng bài</button>
+            </form>
+            <a th:if="${a.status.name() != 'DRAFT'}" th:href="@{/lecturer/assignments/{id}/submissions(id=${a.id})}">Xem bài nộp / chấm</a>
+        </td>
+    </tr></tbody>
+</table>
+<p>
+    <a th:if="${assignments.hasPrevious()}" th:href="@{/lecturer/assignments(page=${assignments.number - 1},status=${selectedStatus})}">Trang trước</a>
+    <span th:text="${assignments.number + 1}"></span>
+    <a th:if="${assignments.hasNext()}" th:href="@{/lecturer/assignments(page=${assignments.number + 1},status=${selectedStatus})}">Trang sau</a>
+</p>
+<form th:action="@{/logout}" method="post"><button type="submit">Đăng xuất</button></form>
+</body>
+</html>

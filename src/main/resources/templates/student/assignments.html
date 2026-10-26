@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Bài tập được giao</title></head>
+<body>
+<h1>Bài tập đang mở được giao cho tôi</h1>
+<p><a th:href="@{/}">Trang chủ</a> | <a th:href="@{/student/results}">Kết quả của tôi</a></p>
+<p th:if="${assignments.empty}">Hiện không có bài tập được giao đang mở.</p>
+<table><thead><tr><th>Tiêu đề</th><th>Mô tả</th><th>Hạn nộp</th><th>Giảng viên</th><th></th></tr></thead>
+<tbody><tr th:each="a : ${assignments.content}">
+    <td th:text="${a.title}"></td><td th:text="${a.description}"></td><td th:text="${a.deadline}"></td>
+    <td th:text="${a.lecturerUsername}"></td>
+    <td><a th:href="@{/student/assignments/{id}/submit(id=${a.id})}">Nộp / cập nhật bài</a></td>
+</tr></tbody></table>
+<p>
+    <a th:if="${assignments.hasPrevious()}" th:href="@{/student/assignments(page=${assignments.number - 1})}">Trang trước</a>
+    <span th:text="${assignments.number + 1}"></span>
+    <a th:if="${assignments.hasNext()}" th:href="@{/student/assignments(page=${assignments.number + 1})}">Trang sau</a>
+</p>
+</body>
+</html>

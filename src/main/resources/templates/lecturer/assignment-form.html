@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Bài tập</title></head>
+<body>
+<h1 th:text="${assignmentId == null ? 'Tạo bài tập' : 'Sửa bài tập'}"></h1>
+<form th:action="@{${actionUrl}}" th:object="${form}" method="post">
+    <p><label for="title">Tiêu đề</label><input id="title" th:field="*{title}" maxlength="150" required><span th:errors="*{title}"></span></p>
+    <p><label for="description">Mô tả</label><textarea id="description" th:field="*{description}" maxlength="4000" required></textarea><span th:errors="*{description}"></span></p>
+    <p><label for="deadline">Hạn nộp (giờ Việt Nam)</label><input id="deadline" type="datetime-local" th:field="*{deadline}" required><span th:errors="*{deadline}"></span></p>
+    <button type="submit">Lưu bản nháp</button>
+</form>
+<a th:href="@{/lecturer/assignments}">Quay lại</a>
+</body>
+</html>

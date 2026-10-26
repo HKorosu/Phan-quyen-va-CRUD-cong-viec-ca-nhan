@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cổng giao bài tập</title></head>
+<body>
+<h1>Cổng giao bài tập học viên</h1>
+<nav>
+    <a th:if="${!authenticated}" th:href="@{/login}">Đăng nhập</a>
+    <a th:if="${!authenticated}" th:href="@{/register}">Đăng ký học viên</a>
+    <a th:if="${authenticated}" th:href="@{/student/assignments}">Bài tập học viên</a>
+    <a th:if="${authenticated}" th:href="@{/student/results}">Kết quả của tôi</a>
+    <a th:if="${authenticated}" th:href="@{/lecturer/assignments}">Quản lý bài tập</a>
+    <a th:if="${authenticated}" th:href="@{/admin/dashboard}">Quản trị</a>
+</nav>
+<p>Học viên chỉ xem bài được giao; giảng viên chỉ quản lý bài do mình phụ trách.</p>
+<form th:if="${authenticated}" th:action="@{/logout}" method="post">
+    <button type="submit">Đăng xuất</button>
+</form>
+</body>
+</html>

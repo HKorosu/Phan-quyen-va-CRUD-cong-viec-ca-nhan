@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Chi tiết bài nộp</title></head>
+<body>
+<h1 th:text="${result.assignmentTitle}"></h1>
+<p>Nội dung: <span th:text="${result.content}"></span></p>
+<p>Đã nộp lúc: <time th:text="${result.submittedAt}"></time></p>
+<p th:text="${result.score == null ? 'Chưa chấm' : 'Điểm: ' + result.score}"></p>
+<p th:text="${result.feedback}"></p>
+<a th:href="@{/student/results}">Quay lại kết quả</a>
+</body>
+</html>
